@@ -57,7 +57,8 @@ class MarcadoresController extends Controller
      */
     public function show($id)
     {
-
+        $marcador=Marcador::findOrFail($id);
+        return response()->json($marcador,200);
     }
 
 
@@ -71,6 +72,35 @@ class MarcadoresController extends Controller
     public function update(Request $request, $id)
     {
 
+        $marcador=Marcador::findOrFail($id);
+
+        $data= $request->only([
+            'titulo',
+            'snippet',
+            'latitud',
+            'longitud',
+            'draggable',
+            'flat',
+            'rotation',
+            'z_index',
+            'icon',
+            'type'
+        ]);
+
+
+        $marcador->titulo = $data['titulo'];
+        $marcador->snippet = $data['snippet'];
+        $marcador->latitud  = $data['latitud'];
+        $marcador->longitud = $data['longitud'];
+        $marcador->draggable = $data['draggable'];
+        $marcador->flat = $data['flat'];
+        $marcador->rotation = $data['rotation'];
+        $marcador->z_index = $data['z_index'];
+        $marcador->icon = $data['icon'];
+        $marcador->type = $data['type'];
+        $marcador->update();
+
+        return response()->json($marcador,200);
     }
 
 
@@ -82,6 +112,8 @@ class MarcadoresController extends Controller
      */
     public function destroy($id)
     {
-
+        $marcador = Marcador::findOrFail($id);
+        $marcador = delete();
+        return response()->json(['result'=> true],200);
     }
 }
